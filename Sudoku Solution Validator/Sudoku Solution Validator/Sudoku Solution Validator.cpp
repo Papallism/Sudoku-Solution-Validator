@@ -1,20 +1,20 @@
-// Sudoku Solution Validator.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/** \file Sudoku Solution Validator.cpp
+*   \brief A Sudoku Solution Validation application
+*   \details A multithreaded application that determines whether the solution to a Sudoku puzzle is valid, with threads checking rows, columns and 3x3 subgrids
+*   \author Michalis Papallis
+*   \version 1.0
+*   \date 04/05/2021
+*   \copyright University of Nicosia
+*/
 
 #include <iostream>
 
+/**
+*  Function <code>main</code> is the main entry point of the application
+*  <BR>
+*  @return Returns 0 if it is completed successfully, otherwise it returns a non 0 integer value
+*/
 int main()
 {
-    std::cout << "Hello World!\n";
+	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
