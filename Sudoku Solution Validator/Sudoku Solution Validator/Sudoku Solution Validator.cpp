@@ -58,7 +58,7 @@ void rowCheck(int row)
 	assert(row < MAX_ROW);
 
 	// Array to hold the count of each number appearing in the row to be checked
-	int numberCount[MAX_ROW] = {0, 0, 0, 0, 0, 0, 0 ,0, 0};
+	int numberCount[MAX_ROW] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	// For-loop to get the count of each number appearing in the row to be checked
 	for (int i = 0; i < MAX_COL; i++)
@@ -80,7 +80,7 @@ void colCheck(int column)
 	assert(column < MAX_COL);
 
 	// Array to hold the count of each number appearing in the column to be checked
-	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0 ,0, 0 };
+	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	// For-loop to get the count of each number appearing in the column to be checked
 	for (int i = 0; i < MAX_COL; i++)
@@ -100,14 +100,14 @@ void subgridCheck(int row, int column)
 {
 	// Testing pre-conditions
 	assert(row >= 0);
-	assert(row < MAX_ROW);
+	assert(row < MAX_ROW - 3);
 	assert(column >= 0);
-	assert(column < MAX_COL);
+	assert(column < MAX_COL - 3);
 
 	// Array to hold the count of each number appearing in the subgrid to be checked
-	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0 ,0, 0 };
+	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-	// For-loop to get the count of each number appearing in the subgrid to be checked
+	// Nested for-loop to get the count of each number appearing in the subgrid to be checked
 	for (int i = row; i < row + 3; i++)
 	{
 		for (int j = column; j < column + 3; j++)
