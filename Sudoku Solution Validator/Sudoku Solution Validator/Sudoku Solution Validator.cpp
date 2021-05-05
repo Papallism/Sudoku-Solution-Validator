@@ -11,7 +11,7 @@
 #include <cassert>
 #include <thread>
 
-// Constants for total rows and columns
+// Constants for total rows and total columns
 const int MAX_ROW = 9;
 const int MAX_COL = 9;
 
@@ -40,7 +40,8 @@ void subgridCheck(int, int);
 */
 int main()
 {
-	rowCheck(0);
+	std::thread t1(subgridCheck, 0, 0);
+	t1.join();
 	return 0;
 }
 
@@ -54,7 +55,16 @@ void rowCheck(int row)
 {
 	// Testing pre-conditions
 	assert(row >= 0);
-	assert(row <= MAX_ROW);
+	assert(row < MAX_ROW);
+
+	// Array to hold the count of each number appearing in the row to be checked
+	int numberCount[MAX_ROW] = {0, 0, 0, 0, 0, 0, 0 ,0, 0};
+
+	// For-loop to get the count of each number appearing in the row to be checked
+	for (int i = 0; i < MAX_COL; i++)
+	{
+		numberCount[sudoku[row][i] - 1]++;
+	}
 }
 
 /**
@@ -67,7 +77,16 @@ void colCheck(int column)
 {
 	// Testing pre-conditions
 	assert(column >= 0);
-	assert(column <= MAX_COL);
+	assert(column < MAX_COL);
+
+	// Array to hold the count of each number appearing in the column to be checked
+	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0 ,0, 0 };
+
+	// For-loop to get the count of each number appearing in the column to be checked
+	for (int i = 0; i < MAX_COL; i++)
+	{
+		numberCount[sudoku[i][column] - 1]++;
+	}
 }
 
 /**
@@ -81,7 +100,19 @@ void subgridCheck(int row, int column)
 {
 	// Testing pre-conditions
 	assert(row >= 0);
-	assert(row <= MAX_ROW);
+	assert(row < MAX_ROW);
 	assert(column >= 0);
-	assert(column <= MAX_COL);
+	assert(column < MAX_COL);
+
+	// Array to hold the count of each number appearing in the subgrid to be checked
+	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0 ,0, 0 };
+
+	// For-loop to get the count of each number appearing in the subgrid to be checked
+	for (int i = row; i < row + 3; i++)
+	{
+		for (int j = column; j < column + 3; j++)
+		{
+			numberCount[sudoku[i][j] - 1]++;
+		}
+	}
 }
