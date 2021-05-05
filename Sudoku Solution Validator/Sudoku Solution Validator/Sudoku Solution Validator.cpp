@@ -8,6 +8,7 @@
 */
 
 #include <iostream>
+#include <cassert>
 #include <thread>
 
 // Constants for total rows and columns
@@ -33,23 +34,54 @@ void colCheck(int);
 void subgridCheck(int, int);
 
 /**
-*  Function <code>main</code> is the main entry point of the application
-*  <BR>
-*  @return Returns 0 if it is completed successfully, otherwise it returns a non 0 integer value
+*	Function <code>main</code> is the main entry point of the application
+*	<BR>
+*	@return		Returns 0 if it is completed successfully, otherwise it returns a non 0 integer value
 */
 int main()
 {
+	rowCheck(0);
 	return 0;
 }
 
-void rowCheck(int)
+/**
+*	Function <code>rowCheck</code> checks if a Sudoku row is valid
+*	<BR>
+*	@param row		The row index to be checked
+*	@return			Returns <code>true</code> if the row is valid
+*/
+void rowCheck(int row)
 {
+	// Testing pre-conditions
+	assert(row >= 0);
+	assert(row <= MAX_ROW);
 }
 
-void colCheck(int)
+/**
+*	Function <code>colCheck</code> checks if a Sudoku column is valid
+*	<BR>
+*	@param column	The column index to be checked
+*	@return			Returns <code>true</code> if the column is valid
+*/
+void colCheck(int column)
 {
+	// Testing pre-conditions
+	assert(column >= 0);
+	assert(column <= MAX_COL);
 }
 
-void subgridCheck(int, int)
+/**
+*	Function <code>subgridCheck</code> checks if a Sudoku 3x3 subgrid is valid
+*	<BR>
+*	@param row		The row index of the subgrid to be checked
+*	@param column	The column index of the subgrid to be checked
+*	@return			Returns <code>true</code> if the subgrid is valid
+*/
+void subgridCheck(int row, int column)
 {
+	// Testing pre-conditions
+	assert(row >= 0);
+	assert(row <= MAX_ROW);
+	assert(column >= 0);
+	assert(column <= MAX_COL);
 }
