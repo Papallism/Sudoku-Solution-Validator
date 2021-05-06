@@ -44,7 +44,8 @@ void subgridCheck(int[], int, int, int);
 int main()
 {
 	int threadIndex = 0;
-	// Array declaration for the result of each thread, will store 0 for non-valid or 1 for valid region
+	bool isValid = true;
+	// Array declaration for storing the result of each thread, will store 0 for non-valid or 1 for valid region
 	int threadResults[TOTAL_THREADS];
 	// Array initialization of all positions to 1
 	for (int i = 0; i < TOTAL_THREADS; i++)
@@ -76,12 +77,15 @@ int main()
 			threadSubgrid.join();
 		}
 	}
-
+	// For-loop to check if any position in the results array is 0, which means solution is not valid
 	for (int i = 0; i < TOTAL_THREADS; i++)
 	{
-		std::cout << threadResults[i] << " ";
+		if (threadResults[i] == 0)
+		{
+			isValid = false;
+		}
 	}
-	std::cout << "\n" << threadIndex;
+	(isValid ? std::cout << "\nValid.\n" : std::cout << "\nNot valid.\n");
 
 	return 0;
 }
