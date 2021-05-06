@@ -14,11 +14,11 @@
 // Constant for the desired number of threads to be created
 const int TOTAL_THREADS = 27;
 
-// Constants for total rows and total columns
+// Constants for total Sudoku rows and total Sudoku columns
 const int MAX_ROW = 9;
 const int MAX_COL = 9;
 
-// Constant 2D array for the Sudoku solution to be checked
+// Constant 2D array representing the Sudoku solution to be checked
 const int sudoku[MAX_ROW][MAX_COL] = {  {6, 2, 4, 5, 3, 9, 1, 8, 7},
 										{5, 1, 9, 7, 2, 8, 6, 3, 4},
 										{8, 3, 7, 6, 1, 4, 2, 9, 5},
@@ -43,17 +43,45 @@ void subgridCheck(int[], int, int, int);
 */
 int main()
 {
+	int threadIndex = 0;
 	// Array declaration for the result of each thread, will store 0 for non-valid or 1 for valid region
 	int threadResults[TOTAL_THREADS];
-	// Array initialization of all positions to 1, 
+	// Array initialization of all positions to 1
 	for (int i = 0; i < TOTAL_THREADS; i++)
 	{
 		threadResults[i] = 1;
 	}
 
-	std::thread t1(rowCheck, threadResults, 0, 0);
-	t1.join();
-	std::cout << threadResults[0];
+	// For-loop to create a thread for checking each row
+	for (int i = 0; i < MAX_ROW; i++)
+	{
+		std::thread threadRow(rowCheck, threadResults, threadIndex, i);
+		threadIndex++;
+		threadRow.join();
+	}
+	// For-loop to create a thread for checking each column
+	for (int i = 0; i < MAX_COL; i++)
+	{
+		std::thread threadColumn(colCheck, threadResults, threadIndex, i);
+		threadIndex++;
+		threadColumn.join();
+	}
+	// For-loop to create a thread for checking each 3x3 subgrid
+	for (int i = 0; i < MAX_ROW; i += 3)
+	{
+		for (int j = 0; j < MAX_COL; j += 3)
+		{
+			std::thread threadSubgrid(subgridCheck, threadResults, threadIndex, i, j);
+			threadIndex++;
+			threadSubgrid.join();
+		}
+	}
+
+	for (int i = 0; i < TOTAL_THREADS; i++)
+	{
+		std::cout << threadResults[i] << " ";
+	}
+	std::cout << "\n" << threadIndex;
 
 	return 0;
 }
@@ -140,9 +168,9 @@ void subgridCheck(int results[], int threadIndex, int row, int column)
 	assert(threadIndex >= 0);
 	assert(threadIndex < TOTAL_THREADS);
 	assert(row >= 0);
-	assert(row < MAX_ROW - 3);
+	assert(row <= MAX_ROW - 3);
 	assert(column >= 0);
-	assert(column < MAX_COL - 3);
+	assert(column <= MAX_COL - 3);
 
 	// Array to hold the count of each number appearing in the subgrid to be checked
 	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
