@@ -19,6 +19,7 @@ const int MAX_ROW = 9;
 const int MAX_COL = 9;
 
 // Constant 2D array representing the Sudoku solution to be checked
+// The current solution used is a valid solution
 const int sudoku[MAX_ROW][MAX_COL] = {  {6, 2, 4, 5, 3, 9, 1, 8, 7},
 										{5, 1, 9, 7, 2, 8, 6, 3, 4},
 										{8, 3, 7, 6, 1, 4, 2, 9, 5},
@@ -108,7 +109,7 @@ void rowCheck(int results[], int threadIndex, int row)
 	// Array to hold the count of each number appearing in the row to be checked
 	int numberCount[MAX_ROW] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-	// For-loop to get the count of each number appearing in the row to be checked
+	// For-loop to count the times each number is appearing in the row to be checked
 	for (int i = 0; i < MAX_COL; i++)
 	{
 		numberCount[sudoku[row][i] - 1]++;
@@ -142,7 +143,7 @@ void colCheck(int results[], int threadIndex, int column)
 	// Array to hold the count of each number appearing in the column to be checked
 	int numberCount[MAX_ROW] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-	// For-loop to get the count of each number appearing in the column to be checked
+	// For-loop to count the times each number is appearing in the column to be checked
 	for (int i = 0; i < MAX_ROW; i++)
 	{
 		numberCount[sudoku[i][column] - 1]++;
@@ -179,7 +180,7 @@ void subgridCheck(int results[], int threadIndex, int row, int column)
 	// Array to hold the count of each number appearing in the subgrid to be checked
 	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-	// Nested for-loop to get the count of each number appearing in the subgrid to be checked
+	// Nested for-loop to count how many times each number is appearing in the subgrid to be checked
 	for (int i = row; i < row + 3; i++)
 	{
 		for (int j = column; j < column + 3; j++)
