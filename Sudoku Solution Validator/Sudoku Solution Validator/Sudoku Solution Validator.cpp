@@ -1,7 +1,7 @@
 /** \file Sudoku Solution Validator.cpp
 *   \brief A Sudoku Solution Validation application
-*   \details A multithreaded application that determines whether the solution to a Sudoku puzzle is valid, with threads checking rows, columns and 3x3 subgrids
-*   \author Michalis Papallis
+*   \details A multithreaded application that determines whether the solution to a Sudoku puzzle is valid, with threads checking rows, columns and 3x3 sub-grids
+*   \author Michalis Papallis - U184N0546
 *   \version 1.0
 *   \date 04/05/2021
 *   \copyright University of Nicosia
@@ -34,7 +34,7 @@ const int sudoku[MAX_ROW][MAX_COL] = {  {6, 2, 4, 5, 3, 9, 1, 8, 7},
 void rowCheck(int[], int, int);
 // Function to check columns for validation
 void colCheck(int[], int, int);
-// Function to check 3x3 subgrids for validation
+// Function to check 3x3 sub-grids for validation
 void subgridCheck(int[], int, int, int);
 
 /**
