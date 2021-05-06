@@ -85,7 +85,7 @@ int main()
 			isValid = false;
 		}
 	}
-	(isValid ? std::cout << "\nValid.\n" : std::cout << "\nNot valid.\n");
+	(isValid ? std::cout << "\nThis Sudoku solution is valid!\n" : std::cout << "\nThis Sudoku solution is NOT valid!\n");
 
 	return 0;
 }
