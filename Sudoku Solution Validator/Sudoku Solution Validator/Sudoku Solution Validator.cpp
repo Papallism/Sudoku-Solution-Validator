@@ -11,6 +11,9 @@
 #include <cassert>
 #include <thread>
 
+// Constant for the desired number of threads to be created
+const int TOTAL_THREADS = 27;
+
 // Constants for total rows and total columns
 const int MAX_ROW = 9;
 const int MAX_COL = 9;
@@ -27,11 +30,11 @@ const int sudoku[MAX_ROW][MAX_COL] = {  {6, 2, 4, 5, 3, 9, 1, 8, 7},
 										{2, 8, 5, 4, 7, 3, 9, 1, 6} };
 
 // Function to check rows for validation
-int rowCheck(int);
+void rowCheck(int[], int, int);
 // Function to check columns for validation
-int colCheck(int);
+void colCheck(int[], int, int);
 // Function to check 3x3 subgrids for validation
-int subgridCheck(int, int);
+void subgridCheck(int[], int, int, int);
 
 /**
 *	Function <code>main</code> is the main entry point of the application
@@ -40,20 +43,33 @@ int subgridCheck(int, int);
 */
 int main()
 {
-	std::thread t1(subgridCheck, 0, 0);
+	// Array declaration for the result of each thread, will store 0 for non-valid or 1 for valid region
+	int threadResults[TOTAL_THREADS];
+	// Array initialization of all positions to 1, 
+	for (int i = 0; i < TOTAL_THREADS; i++)
+	{
+		threadResults[i] = 1;
+	}
+
+	std::thread t1(rowCheck, threadResults, 0, 0);
 	t1.join();
+	std::cout << threadResults[0];
+
 	return 0;
 }
 
 /**
 *	Function <code>rowCheck</code> checks if a Sudoku row is valid
 *	<BR>
-*	@param row		The row index to be checked
-*	@return			Returns 1 if the row is valid, otherwise returns 0
+*	@param results[]	The array to store the result of each thread
+*	@param threadIndex	The index number of each thread corresponding to its array position
+*	@param row			The row index to be checked
 */
-int rowCheck(int row)
+void rowCheck(int results[], int threadIndex, int row)
 {
 	// Testing pre-conditions
+	assert(threadIndex >= 0);
+	assert(threadIndex < TOTAL_THREADS);
 	assert(row >= 0);
 	assert(row < MAX_ROW);
 
@@ -66,30 +82,33 @@ int rowCheck(int row)
 		numberCount[sudoku[row][i] - 1]++;
 	}
 
-	// For-loop to check the count of each number appearing in the row, returning 0 if it doesn't appear exactly one time
+	// For-loop to check the count of each number appearing in the row, sets array element to 0 if they don't appear exactly one time
 	for (int i = 0; i < MAX_COL; i++)
 	{
 		if (numberCount[i] != 1)
-			return 0;
+		{
+			results[threadIndex] = 0;
+		}
 	}
-
-	return 1;
 }
 
 /**
 *	Function <code>colCheck</code> checks if a Sudoku column is valid
 *	<BR>
-*	@param column	The column index to be checked
-*	@return			Returns 1 if the column is valid, otherwise returns 0
+*	@param results[]	The array to store the result of each thread
+*	@param threadIndex	The index number of each thread corresponding to its array position
+*	@param column		The column index to be checked
 */
-int colCheck(int column)
+void colCheck(int results[], int threadIndex, int column)
 {
 	// Testing pre-conditions
+	assert(threadIndex >= 0);
+	assert(threadIndex < TOTAL_THREADS);
 	assert(column >= 0);
 	assert(column < MAX_ROW);
 
 	// Array to hold the count of each number appearing in the column to be checked
-	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	int numberCount[MAX_ROW] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	// For-loop to get the count of each number appearing in the column to be checked
 	for (int i = 0; i < MAX_ROW; i++)
@@ -97,26 +116,29 @@ int colCheck(int column)
 		numberCount[sudoku[i][column] - 1]++;
 	}
 
-	// For-loop to check the count of each number appearing in the column, returning 0 if it doesn't appear exactly one time
+	// For-loop to check the count of each number appearing in the column, sets array element to 0 if they don't appear exactly one time
 	for (int i = 0; i < MAX_ROW; i++)
 	{
 		if (numberCount[i] != 1)
-			return 0;
+		{
+			results[threadIndex] = 0;
+		}
 	}
-
-	return 1;
 }
 
 /**
 *	Function <code>subgridCheck</code> checks if a Sudoku 3x3 subgrid is valid
 *	<BR>
-*	@param row		The row index of the subgrid to be checked
-*	@param column	The column index of the subgrid to be checked
-*	@return			Returns 1 if the subgrid is valid, otherwise returns 0
+*	@param results[]	The array to store the result of each thread
+*	@param threadIndex	The index number of each thread corresponding to its array position
+*	@param row			The row index of the subgrid to be checked
+*	@param column		The column index of the subgrid to be checked
 */
-int subgridCheck(int row, int column)
+void subgridCheck(int results[], int threadIndex, int row, int column)
 {
 	// Testing pre-conditions
+	assert(threadIndex >= 0);
+	assert(threadIndex < TOTAL_THREADS);
 	assert(row >= 0);
 	assert(row < MAX_ROW - 3);
 	assert(column >= 0);
@@ -134,12 +156,12 @@ int subgridCheck(int row, int column)
 		}
 	}
 
-	// For-loop to check the count of each number appearing in the subgrid, returning 0 if it doesn't appear exactly one time
+	// For-loop to check the count of each number appearing in the subgrid, sets array element to 0 if they don't appear exactly one time
 	for (int i = 0; i < MAX_ROW; i++)
 	{
 		if (numberCount[i] != 1)
-			return 0;
+		{
+			results[threadIndex] = 0;
+		}
 	}
-
-	return 1;
 }
