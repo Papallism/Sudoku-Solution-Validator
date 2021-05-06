@@ -27,11 +27,11 @@ const int sudoku[MAX_ROW][MAX_COL] = {  {6, 2, 4, 5, 3, 9, 1, 8, 7},
 										{2, 8, 5, 4, 7, 3, 9, 1, 6} };
 
 // Function to check rows for validation
-void rowCheck(int);
+int rowCheck(int);
 // Function to check columns for validation
-void colCheck(int);
+int colCheck(int);
 // Function to check 3x3 subgrids for validation
-void subgridCheck(int, int);
+int subgridCheck(int, int);
 
 /**
 *	Function <code>main</code> is the main entry point of the application
@@ -49,9 +49,9 @@ int main()
 *	Function <code>rowCheck</code> checks if a Sudoku row is valid
 *	<BR>
 *	@param row		The row index to be checked
-*	@return			Returns <code>true</code> if the row is valid
+*	@return			Returns 1 if the row is valid, otherwise returns 0
 */
-void rowCheck(int row)
+int rowCheck(int row)
 {
 	// Testing pre-conditions
 	assert(row >= 0);
@@ -65,28 +65,46 @@ void rowCheck(int row)
 	{
 		numberCount[sudoku[row][i] - 1]++;
 	}
+
+	// For-loop to check the count of each number appearing in the row, returning 0 if it doesn't appear exactly one time
+	for (int i = 0; i < MAX_COL; i++)
+	{
+		if (numberCount[i] != 1)
+			return 0;
+	}
+
+	return 1;
 }
 
 /**
 *	Function <code>colCheck</code> checks if a Sudoku column is valid
 *	<BR>
 *	@param column	The column index to be checked
-*	@return			Returns <code>true</code> if the column is valid
+*	@return			Returns 1 if the column is valid, otherwise returns 0
 */
-void colCheck(int column)
+int colCheck(int column)
 {
 	// Testing pre-conditions
 	assert(column >= 0);
-	assert(column < MAX_COL);
+	assert(column < MAX_ROW);
 
 	// Array to hold the count of each number appearing in the column to be checked
 	int numberCount[MAX_ROW] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	// For-loop to get the count of each number appearing in the column to be checked
-	for (int i = 0; i < MAX_COL; i++)
+	for (int i = 0; i < MAX_ROW; i++)
 	{
 		numberCount[sudoku[i][column] - 1]++;
 	}
+
+	// For-loop to check the count of each number appearing in the column, returning 0 if it doesn't appear exactly one time
+	for (int i = 0; i < MAX_ROW; i++)
+	{
+		if (numberCount[i] != 1)
+			return 0;
+	}
+
+	return 1;
 }
 
 /**
@@ -94,9 +112,9 @@ void colCheck(int column)
 *	<BR>
 *	@param row		The row index of the subgrid to be checked
 *	@param column	The column index of the subgrid to be checked
-*	@return			Returns <code>true</code> if the subgrid is valid
+*	@return			Returns 1 if the subgrid is valid, otherwise returns 0
 */
-void subgridCheck(int row, int column)
+int subgridCheck(int row, int column)
 {
 	// Testing pre-conditions
 	assert(row >= 0);
@@ -115,4 +133,13 @@ void subgridCheck(int row, int column)
 			numberCount[sudoku[i][j] - 1]++;
 		}
 	}
+
+	// For-loop to check the count of each number appearing in the subgrid, returning 0 if it doesn't appear exactly one time
+	for (int i = 0; i < MAX_ROW; i++)
+	{
+		if (numberCount[i] != 1)
+			return 0;
+	}
+
+	return 1;
 }
